@@ -1,5 +1,6 @@
 /* Kerry O'Connor
-* 11/27/23
+* 11/27/23 (start date), due 12/11/23
+* final project INF651
 */
 function createElemWithText(stringName = 'p', textOfElem ='', classNameifNeeded) {
   let elemCreated = document.createElement(stringName);
@@ -59,9 +60,9 @@ function deleteChildElements(parentElement){
   if (!(parentElement instanceof HTMLElement)) {
     return undefined;
   }
-  let child=parentElement.lastElementChild;
-  while(child){
-  parentElement.removeChild(child);
+  let child=parentElement.lastElementChild; //Define a child variable as parentElement.lastElementChild
+  while(child){ //While the child exists...(use a while loop)
+  parentElement.removeChild(child); // Use parentElement.removeChild to remove the child in the loop
   child=parentElement.lastElementChild;
 }
 return parentElement;
@@ -90,7 +91,7 @@ function addButtonListeners() {
   }
 }
 function removeButtonListeners() {
-  const mainElement = document.querySelector('main');
+  const mainElement = document.querySelector('main'); 
   const buttonsInsideMain = mainElement ? mainElement.querySelectorAll('button') : [];
 
   if (buttonsInsideMain.length > 0) {
@@ -120,6 +121,7 @@ function buttonClickHandler(event) {
 }
 
 function createComments(comments) {
+    //depends on createElemWithText
   if (!comments) {
     console.log('Comment data is missing.');
     return undefined;
@@ -154,14 +156,15 @@ function createComments(comments) {
   }
 }
 function populateSelectMenu(usersData){
+    //depends on createSelectOptions
   if(!usersData){
     return undefined;
   }else{
     
   
   let selectMenu=document.querySelector('#selectMenu');
-  let options=createSelectOptions(usersData);
-  for(let i=0;i<options.length; i++){
+  let options=createSelectOptions(usersData); //passes user data to createSelectOptions
+  for(let i=0;i<options.length; i++){ //loop thru option elems and appends to select menu 
     let option=options[i];
     selectMenu.append(option);
   }
@@ -169,13 +172,13 @@ function populateSelectMenu(usersData){
   }
 }
 async function getUsers(){
-  try{
+  try{ //utilizes try catch
     const response= await fetch('https://jsonplaceholder.typicode.com/users');
     if(!response.ok){
       throw new Error(`Failed to fetch users. Status: ${response.status}`);
     }
-    const usersData= await response.json();
-    return usersData;
+    const usersData= await response.json(); //await users data response 
+    return usersData;//return json data
   }catch(error){
     console.error('An error occurred:', error.message);
     throw error;
@@ -187,7 +190,7 @@ async function getUserPosts(userId){
     return undefined;
   }
   try{
-    const response= await fetch(`https://jsonplaceholder.typicode.com/users/${userId}/posts`);
+    const response= await fetch(`https://jsonplaceholder.typicode.com/users/${userId}/posts`); //access thru userId
     if(!response.ok){
       throw new Error(`Failed to fetch users posts. Status: ${response.status}`);
     }
@@ -330,7 +333,7 @@ async function selectMenuChangeEventHandler(event) {
   const selectMenu = document.querySelector('#selectMenu');
   selectMenu.disabled = true;
 
-  let userId = event?.target?.value || 1;
+  let userId = event?.target?.value || 1; //did this exactly as outlined on cheatsheet
   let result = await getUserPosts(userId);
   let refreshPost = await refreshPosts(result);
   let resultingArray = [userId, result, refreshPost];
